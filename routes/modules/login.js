@@ -4,22 +4,23 @@ const router = express.Router()
 const Login = require('../../models/login')
 // 定義首頁路由
 router.get('/', (req, res) => {
-  Login.find()
-    .lean()
-    .then(res.render('index'))
-    .catch(error => console.error(error))
+  res.render('index')
 })
 
 router.post('/', (req, res) => {
   const { email, password } = req.body
   return Login.find()
     .then(users => {
+      let error = true
       users.forEach(user => {
         if (user.email === email && user.password === password) {
-          res.redirect('/welcome')
+          error = false
+          res.redirect(`/welcome/${user.firstName}`)
         }
       })
-      res.redirect('/error')
+      if (error) {
+        res.redirect('/error')
+      }
     })
     .catch(error => console.log(error))
 })
