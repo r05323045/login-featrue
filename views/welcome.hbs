@@ -1,4 +1,6 @@
 <div class="container py-5 text-center">
   <h1>Welcome back {{name}}</h1>
-  <a href="/" class="my-5 btn btn-outline-secondary">重新登入</a>
+  <form method="POST" action="/signout">
+    <button type="submit" class="my-5 btn btn-outline-secondary">登出</button>
+  </form>
 </div>

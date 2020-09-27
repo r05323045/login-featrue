@@ -1,6 +1,7 @@
 // 載入 express 並建構應用程式伺服器
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const exphbs = require('express-handlebars')
 
 // 引用路由器
@@ -13,7 +14,7 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(cookieParser())
 app.use(routes)
 
 // 設定 port 3000

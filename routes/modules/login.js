@@ -1,10 +1,17 @@
-// 引用 Express 與 Express 路由器
 const express = require('express')
 const router = express.Router()
 const Login = require('../../models/login')
-// 定義首頁路由
+
 router.get('/', (req, res) => {
-  res.render('index')
+  if (req.cookies.username) {
+    res.redirect('../')
+  } else if (req.cookies.error) {
+    const error = true
+    const errorMessage = 'Email 或 Password 錯誤'
+    res.render('index', { error, errorMessage })
+  } else {
+    res.render('index')
+  }
 })
 
 router.post('/', (req, res) => {
@@ -15,20 +22,16 @@ router.post('/', (req, res) => {
       users.forEach(user => {
         if (user.email === email && user.password === password) {
           error = false
-          res.redirect(`/welcome/${user.firstName}`)
+          res.cookie('username', `${user.firstName}`)
+          res.redirect('../')
         }
       })
       if (error) {
-        res.redirect('/error')
+        res.cookie('error', `${Date.now()}`, { maxAge: 2 * 1000 })
+        res.redirect('/login')
       }
     })
     .catch(error => console.log(error))
 })
 
-router.get('/error', (req, res) => {
-  const error = true
-  const errorMessage = 'Email 或 Password 錯誤'
-  res.render('index', { error, errorMessage })
-})
-// 匯出路由模組
 module.exports = router

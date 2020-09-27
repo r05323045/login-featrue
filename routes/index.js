@@ -2,11 +2,11 @@
 const express = require('express')
 const router = express.Router()
 
+const home = require('./modules/home')
 const login = require('./modules/login')
-const welcome = require('./modules/welcome')
 
-router.use('/', login)
-router.use('/welcome', welcome)
+router.use('/', home)
+router.use('/login', login)
 // 準備引入路由模組
 // 匯出路由器
 module.exports = router
