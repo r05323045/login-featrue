@@ -1,13 +1,5 @@
-const mongoose = require('mongoose')
 const Login = require('../login')
-mongoose.connect('mongodb://localhost/login-feature', { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+const db = require('../../config/mongoose')
 
 const users = [
   {
